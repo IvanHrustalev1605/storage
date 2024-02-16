@@ -7,10 +7,9 @@ import java.time.LocalDateTime
 @Entity(name = "repairParts")
 open class RepairPart(
     @Id
-                          @GeneratedValue(strategy = GenerationType.AUTO)
-                          @Column(name = "id", nullable = false)
-                          open var id: Long? = null,
-    open var type: String,
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id", nullable = false)
+    open var id: Long? = null,
 
     @Column(name = "code", unique = true)
     open var code: String,
@@ -21,13 +20,9 @@ open class RepairPart(
     @Column(name = "installationTime")
     open var installationTime: LocalDateTime,
 
-    @ManyToMany(mappedBy = "repairParts", fetch = FetchType.EAGER)
-    open var cars: MutableSet<Car> = mutableSetOf(),
+    @Column
+    open var installed: Boolean = false,
 
     @Enumerated
     open var repairPartGroup: RepairPartGroup?
-) {
-    override fun toString(): String {
-        return "RepairPart(id=$id, type='$type', code='$code', resource=$resource, installationTime=$installationTime, cars=$cars, repairPartGroup=$repairPartGroup)"
-    }
-}
+)

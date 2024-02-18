@@ -14,7 +14,7 @@ class RepairPartServiceImpl(private val repairPartRepository: RepairPartReposito
     @Transactional
     override fun createRepairParts(): Boolean {
         for (i in 1 .. 500) {
-            val repairPart = RepairPart(null, "", 0, LocalDateTime.now(), false, null)
+            val repairPart = RepairPart()
             repairPart.code = Random.nextInt(100000, 1000000).toString()
             repairPart.repairPartGroup = generatePartGroup()
             repairPart.installationTime = LocalDateTime.now()

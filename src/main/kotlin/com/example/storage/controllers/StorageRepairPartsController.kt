@@ -9,10 +9,10 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-@RequestMapping("/api/storage")
-class StorageController(private val repairPartService: RepairPartService) {
+@RequestMapping("api/storage/repairParts")
+class StorageRepairPartsController(private val repairPartService: RepairPartService) {
 
-    @GetMapping
+    @GetMapping("/create")
     fun createParts() : ResponseEntity<Boolean> {
         return ResponseEntity(repairPartService.createRepairParts(), HttpStatusCode.valueOf(200))
     }

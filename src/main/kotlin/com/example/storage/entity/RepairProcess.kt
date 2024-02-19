@@ -20,11 +20,9 @@ open class RepairProcess() {
     open var repairPlace: String? = null
 
     @OneToOne
-    @JoinColumn(name = "id", referencedColumnName = "id")
     open var car: Car? = null
 
     @OneToMany
-    @JoinColumn(name = "id", referencedColumnName = "id")
     open var employees: MutableList<Employee>? = null
 
     @OneToMany(mappedBy = "repairProcess")

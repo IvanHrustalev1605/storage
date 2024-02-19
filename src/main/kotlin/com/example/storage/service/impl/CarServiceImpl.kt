@@ -5,6 +5,7 @@ import com.example.storage.entity.enums.CarBrand
 import com.example.storage.repository.CarRepository
 import com.example.storage.service.GeneratorUtils
 import com.example.storage.service.abstracts.CarService
+import jakarta.transaction.Transactional
 import org.springframework.stereotype.Service
 import kotlin.random.Random
 
@@ -27,9 +28,10 @@ class CarServiceImpl(private val carRepository: CarRepository) : CarService {
         carRepository.save(car)
         return true
     }
-
+    @Transactional
     override fun findCarById(id: Long): Car {
-        return carRepository.findById(id).orElseThrow { Exception(String.format("Машина по ID %d не найдена", id)) }
+        return carRepository.findById(id)
+            .orElseThrow { Exception(String.format("Машина по ID %d не найдена", id)) }
     }
 
     override fun findCarByVin(vin: String): Car {

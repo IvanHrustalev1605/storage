@@ -35,7 +35,7 @@ open class Car() {
     @JoinColumn
     open var repairProcess: RepairProcess? = null
 
-    @ManyToMany
+    @ManyToMany(cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
     @JoinTable(name = "cars_drivers",
         joinColumns = [JoinColumn(name = "car_id")],
         inverseJoinColumns = [JoinColumn(name = "driver_id")])

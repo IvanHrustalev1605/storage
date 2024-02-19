@@ -21,11 +21,11 @@ open class Driver() {
     open var vehicleType: String? = null
     @Column
     open var rating: Double? = null
-    @Column
+    @Enumerated(EnumType.ORDINAL)
     open var position: EmployeePosition = EmployeePosition.DRIVER
     @Embedded
     open var personInfo: PersonInfo? = null
 
-    @ManyToMany(mappedBy = "drivers")
+    @ManyToMany(mappedBy = "drivers", cascade = [CascadeType.MERGE], fetch = FetchType.EAGER)
     open var cars: MutableList<Car>? = mutableListOf()
 }

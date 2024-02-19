@@ -16,8 +16,9 @@ class EmployeeServiceImpl(private val employeeRepository: EmployeeRepository) : 
         for (i in 1 .. 59) {
             val employee = Employee()
             employee.name = GeneratorUtils.generateRandomString(5)
-            employee.distinctiveDocument = Random.nextInt(6, 6).toString()
+            employee.distinctiveDocument = GeneratorUtils.generateRandomString(8)
             employee.position = GeneratorUtils.generateEmployeePosition()
+            employee.personInfo = GeneratorUtils.generatePersonInfo()
             employeeRepository.save(employee)
         }
         return true

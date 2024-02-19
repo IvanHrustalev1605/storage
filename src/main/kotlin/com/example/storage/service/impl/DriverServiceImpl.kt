@@ -1,14 +1,13 @@
 package com.example.storage.service.impl
 
 import com.example.storage.entity.Driver
-import com.example.storage.entity.enums.EmployeePosition
 import com.example.storage.repository.DriverRepository
 import com.example.storage.service.GeneratorUtils
 import com.example.storage.service.abstracts.DriverService
+import jakarta.transaction.Transactional
 import org.springframework.stereotype.Service
 import java.time.LocalDate
 import kotlin.random.Random
-import kotlin.random.nextInt
 
 @Service
 class DriverServiceImpl(private val driverRepository: DriverRepository) : DriverService {
@@ -19,8 +18,14 @@ class DriverServiceImpl(private val driverRepository: DriverRepository) : Driver
             driver.rating = Random.nextDouble(3.0, 5.0)
             driver.vehicleType = "TRACK"
             driver.licenseNumber = GeneratorUtils.generateRandomString(23)
+            driver.personInfo = GeneratorUtils.generatePersonInfo()
             driverRepository.save(driver)
         }
+        return true
+    }
+    @Transactional
+    override fun saveDriver(driver: Driver): Boolean {
+        driverRepository.save(driver)
         return true
     }
 
@@ -28,7 +33,7 @@ class DriverServiceImpl(private val driverRepository: DriverRepository) : Driver
         return driverRepository.findByLicenseNumber(license).orElseThrow()
     }
 
-    override fun findById(id: Long): Driver {
+    override fun findById(id: Long): Driver? {
         return driverRepository.findById(id).orElseThrow()
     }
 }

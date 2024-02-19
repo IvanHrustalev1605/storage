@@ -17,6 +17,8 @@
         <java.version>17</java.version>
         <kotlin.version>1.9.22</kotlin.version>
         <spring-cloud.version>2023.0.0</spring-cloud.version>
+        <mapstruct.version>1.5.5.Final</mapstruct.version>
+        <kotlin.compiler.jvmTarget>1.8</kotlin.compiler.jvmTarget>
     </properties>
     <dependencies>
         <dependency>
@@ -52,12 +54,7 @@
         <dependency>
             <groupId>org.mapstruct</groupId>
             <artifactId>mapstruct</artifactId>
-            <version>1.5.3.Final</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
+            <version>${mapstruct.version}</version>
         </dependency>
     </dependencies>
     <dependencyManagement>
@@ -74,7 +71,6 @@
 
     <build>
         <sourceDirectory>${project.basedir}/src/main/kotlin</sourceDirectory>
-        <testSourceDirectory>${project.basedir}/src/test/kotlin</testSourceDirectory>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
@@ -103,18 +99,10 @@
                         <artifactId>kotlin-maven-noarg</artifactId>
                         <version>${kotlin.version}</version>
                     </dependency>
-                </dependencies>
-            </plugin>
-            <plugin>
-                <artifactId>kotlin-maven-plugin</artifactId>
-                <groupId>org.jetbrains.kotlin</groupId>
-                <!-- other properties -->
-                <dependencies>
-                    <!-- other dependencies -->
                     <dependency>
                         <groupId>org.mapstruct</groupId>
                         <artifactId>mapstruct-processor</artifactId>
-                        <version>1.5.3.Final</version>
+                        <version>${mapstruct.version}</version>
                     </dependency>
                 </dependencies>
                 <executions>
@@ -126,15 +114,57 @@
                         <configuration>
                             <sourceDirs>
                                 <sourceDir>src/main/kotlin</sourceDir>
+                                <sourceDir>src/main/java</sourceDir>
                             </sourceDirs>
                             <annotationProcessorPaths>
                                 <annotationProcessorPath>
                                     <groupId>org.mapstruct</groupId>
                                     <artifactId>mapstruct-processor</artifactId>
-                                    <version>1.5.3.Final</version>
+                                    <version>${mapstruct.version}</version>
                                 </annotationProcessorPath>
                             </annotationProcessorPaths>
                         </configuration>
+                    </execution>
+                    <execution>
+                        <id>compile</id>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>compile</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version>
+                <configuration>
+                    <proc>none</proc>
+                    <source>${kotlin.compiler.jvmTarget}</source>
+                    <target>${kotlin.compiler.jvmTarget}</target>
+                </configuration>
+                <executions>
+                    <!-- Replacing default-compile as it is treated specially by maven -->
+                    <execution>
+                        <id>default-compile</id>
+                        <phase>none</phase>
+                    </execution>
+                    <!-- Replacing default-testCompile as it is treated specially by maven -->
+                    <execution>
+                        <id>default-testCompile</id>
+                        <phase>none</phase>
+                    </execution>
+                    <execution>
+                        <id>java-compile</id>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>compile</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>java-test-compile</id>
+                        <phase>test-compile</phase>
+                        <goals> <goal>testCompile</goal> </goals>
                     </execution>
                 </executions>
             </plugin>

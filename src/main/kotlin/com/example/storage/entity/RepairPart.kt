@@ -31,7 +31,6 @@ open class RepairPart() {
     open var car: Car? = null
 
     @ManyToOne
-    @JoinTable
     open var repairProcess: RepairProcess? = null
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
